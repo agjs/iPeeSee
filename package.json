@@ -1,0 +1,29 @@
+{
+  "name": "ipeesee",
+  "version": "0.0.9",
+  "description": "Electron IPC communication made easy and sexy.",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agjs/iPeeSee.git"
+  },
+  "keywords": [
+    "electron",
+    "ipc",
+    "ipc-promise",
+    "node",
+    "javascript"
+  ],
+  "author": "Aleksandar Grbic <hi@aleksandar.xyz>",
+  "homepage": "https://github.com/agjs/iPeeSee#readme",
+  "license": "ISC",
+  "directories": {
+    "test": "./test"
+  },
+  "dependencies": {
+    "electron": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  }
+}

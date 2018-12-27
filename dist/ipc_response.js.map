@@ -1,0 +1,1 @@
+{"version":3,"file":"ipc_response.js","sourceRoot":"","sources":["../ipc_response.ts"],"names":[],"mappings":";;AAAA,MAAqB,WAAW;IAE9B,YAAY,UAAkB,EAAE,OAAgB;QAC9C,IAAI,CAAC,YAAY,GAAG;YAClB,IAAI,EAAE,cAAc;YACpB,UAAU,EAAE,UAAU;YACtB,OAAO,EAAE,OAAO,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,IAAI;SAClC,CAAC;IACJ,CAAC;CACF;AATD,8BASC"}
