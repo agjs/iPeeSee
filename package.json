@@ -1,6 +1,6 @@
 {
   "name": "ipeesee",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Electron IPC communication made easy and sexy.",
   "main": "./dist/index.js",
   "repository": {

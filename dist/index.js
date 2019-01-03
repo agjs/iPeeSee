@@ -22,11 +22,11 @@ class IPeeSee {
      * @param {string} channel - A channel we want to send a message to
      * @param {*} [data] - Data you want to send
      * @param {{ window?: BrowserWindow; timeout?: number; reply?: boolean }} [options]
-     * @param browserWindow - A window you want to send the message to. If your application
-     * has only one window, you can pass its reference to the constructor and ignore this argument
-     * further on. Moreover, this parameter has higher precedence then the argument passed to the
-     * constructor, so feel safe to use it in conjunction if you maybe have multiple windows but mostly
-     * communication to only one of them.
+     * @param browserWindow - A window you want to send the message to. If your application has only
+     * one window, you can pass its reference to the constructor and ignore this argument further on.
+     * Moreover, this parameter has higher precedence then the argument passed to the constructor, so
+     * feel safe to use it in conjunction if you maybe have multiple windows but mostly communication
+     * to only one of them.
      * @param timeout - An optional timeout you can specify how long you want to wait for the reply
      * before removing the listener
      * @reply - If you want to send a message without waiting for reply, set this to false
@@ -41,6 +41,13 @@ class IPeeSee {
             let timeoutId = null;
             const shouldReply = typeof opts.reply !== 'boolean' || (typeof opts.reply === 'boolean' && opts.reply);
             if (shouldReply) {
+                if (opts && opts.timeout) {
+                    const timeoutDuration = opts.timeout * 1000;
+                    timeoutId = setTimeout(() => {
+                        this.__removeAllListeners(replyChannel);
+                        resolve(new ipc_response_1.default(408, `Timed out after ${timeoutDuration * 0.001}s on channel ${replyChannel}.`));
+                    }, timeoutDuration);
+                }
                 this.ipc.on(replyChannel, (_event, response) => {
                     clearTimeout(timeoutId);
                     this.__removeAllListeners(replyChannel);
@@ -48,7 +55,7 @@ class IPeeSee {
                         reject(new ipc_error_1.default(response.error));
                     }
                     else if (!response) {
-                        resolve(new ipc_response_1.default(204));
+                        resolve(new ipc_response_1.default(204, `Got an undefined reply from ${replyChannel}. This means that you are listening for a reply but not returning anything from ${replyChannel}. You should probably remove this listener and send the message one way, without waiting for the reply.`));
                     }
                     else {
                         resolve(Object.assign({}, response, new ipc_response_1.default(200)));
@@ -63,13 +70,6 @@ class IPeeSee {
                 window.webContents.on('did-finish-load', () => {
                     window.webContents.send(channel, data);
                 });
-            }
-            if (shouldReply && options && opts.timeout) {
-                const timeoutDuration = opts.timeout * 0.001;
-                timeoutId = setTimeout(() => {
-                    this.__removeAllListeners(replyChannel);
-                    resolve(new ipc_response_1.default(408, `Timed out after ${timeoutDuration}s on channel ${replyChannel}.`));
-                }, timeoutDuration);
             }
         });
     }
